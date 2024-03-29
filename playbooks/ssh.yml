@@ -1,19 +1,47 @@
-- name: New SSH Keys for Ansible
-  hosts: localhost
+# - name: New SSH Keys for Ansible
+#   hosts: localhost
+#   vars:
+#     ssh_key_filename:
+#   tasks:
+#     - name: "Create .ssh"
+#       ansible.builtin.file:
+#         path: "~/.ssh"
+#         state: directory
+#         mode: '0755'
+#
+#     - name: generate SSH key "id_rsa"
+#       openssh_keypair:
+#         path: "~/.ssh/id_rsa"
+#         type: rsa
+#         size: 4096
+#         state: present
+#         force: no
+- hosts: localhost
   vars:
-    ssh_key_filename: 
+    source_key: "../.ssh/id_rsa"
+    dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
   tasks:
-    - name: "Create .ssh"
-      ansible.builtin.file:
-        path: "~/.ssh"
+    - name: Ensure .ssh directory exists.
+      file:
+        dest: "{{ dest_key | dirname }}"
+        mode: 0700
         state: directory
-        mode: '0755'
-
-    - name: generate SSH key "id_rsa"
-      openssh_keypair:
-        path: "~/.ssh/id_rsa"
-        type: rsa
-        size: 4096
+    - name: Install ssh key
+      copy:
+        src: "{{ source_key }}"
+        dest: "{{ dest_key }}"
+        mode: 0600
+    - name: Install ssh key public
+      copy:
+        src: "{{ source_key }}.pub"
+        dest: "{{ dest_key }}.pub"
+        mode: 0644
+    - name: Set authorized key took from file
+      authorized_key:
+        user: "{{ lookup('env', 'USER') }}"
         state: present
-        force: no
-
+        key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
+      with_fileglob:
+      - "{{ lookup('env', 'HOME') }}/.ssh/*.pub"
+    - name: Decrypt Ansible Vault encrypted files
+      ansible.builtin.command: ansible-vault decrypt {{ file_path }}
