@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+flatpak list --app | sed 's/\t/$DIVID$/gim' | awk -F "$DIVID$" '{print $3}' | fzf | xargs -I {} sh -c "nohup flatpak run {} > /dev/null 2>&1 &"

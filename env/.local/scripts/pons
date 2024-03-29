@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+chmod +x /root/.local/bin/_pons/target/release/pons
+/root/.local/bin/_pons/target/release/pons $@

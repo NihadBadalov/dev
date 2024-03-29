@@ -1,0 +1,43 @@
+# https://github.com/vivien/i3blocks
+# Utf separator symbols - https://www.utf8-chartable.de/unicode-utf8-table.pl?start=12288&number=128&utf8=string-literal
+
+#full_text=〉#\xe3\x80\x89
+full_text=《》
+align=center
+color=#666666
+separator=false
+
+[ram]
+# Free ram in GB
+command=free -m | awk 'NR==2{printf "RAM: %s/%s MB (%.2f%%)\n", $3,$2,$3*100/$2 }'
+interval=5
+color=#ffffff
+
+[separator]
+
+[time]
+command=date +%H:%M:%S%Z\ %Y-%m-%d\ \(UTC%:::z\) | sed "s/CET/ CET/"
+interval=5
+color=#ffffff
+
+[separator]
+
+[cpuload]
+command=top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print "CPU: " 100 - $1 "%"}'
+interval=5
+color=#ffffff
+
+[separator]
+
+[disk]
+command=df -h /home | awk 'NR==2{print $4}'
+interval=5
+color=#ffffff
+
+[separator]
+
+[language]
+command=xkblayout-state print "%s "
+interval=1
+signal=1
+color=#ffffff

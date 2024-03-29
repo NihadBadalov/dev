@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+emails=(
+  7
+  a
+  r
+  n
+  8
+)
+
+return_email_index()
+{
+  email_ind=0
+  for e in "${emails[@]}"; do
+    # echo "$e";
+    if [[ "$e" == "$1" ]]; then
+      break
+    fi
+    ((email_ind++))
+  done
+  echo "$email_ind"
+}
+
+read -p "Enter the email name: " email_name
+email_index=$(return_email_index "$email_name")
+firefox -new-tab "https://mail.google.com/mail/u/$email_index/#inbox"

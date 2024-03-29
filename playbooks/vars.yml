@@ -1,0 +1,8 @@
+username: "nihad"
+email: "nihadbadalov21@gmail.com"
+git_username: "NihadBadalov"
+git_email: "32594553+NihadBadalov@users.noreply.github.com"
+ssh_key_filename: "id_ed25519"
+config: "{{ lookup('ansible.builtin.env', 'XDG_CONFIG') }}"
+home: "{{ lookup('ansible.builtin.env', 'HOME') }}"
+

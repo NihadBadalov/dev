@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+echo -n $(cat /home/nihad/personal/ghp_token) | xclip -sel c

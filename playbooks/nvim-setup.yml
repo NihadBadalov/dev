@@ -1,0 +1,22 @@
+- hosts: localhost
+  tasks:
+    - name: Update package cache
+      apt:
+        update_cache: yes
+      become: true
+
+    - name: Add Neovim repository
+      apt_repository:
+        repo: "ppa:neovim-ppa/unstable"
+      become: true
+
+    - name: Update package cache again
+      apt:
+        update_cache: yes
+      become: true
+
+    - name: Install Neovim
+      apt:
+        name: neovim
+        state: present
+      become: true

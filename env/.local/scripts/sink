@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+pactl set-default-sink $(pactl list sinks short | awk '{print $1}' | fzf)
